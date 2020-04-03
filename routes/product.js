@@ -1,66 +1,44 @@
-const { Router } = require('express')
-const router = new Router()
-const Product = require('../models').Product
-const Category = require('../models').Category
-const ProductImages = require('../models').ProductImages
-const Review = require('../models').Review
+'use strict'
 
-// Create product
-router.post('/product', async (req, res, next) => {
-  try {
-    const { name, price, description, inStock, image } = req.body
+const Category = require('./category').models
 
-    const createdProduct = await Product.create({
-      name,
-      price,
-      description,
-      inStock,
-      image
-    })
-
-    // This is how you relate the product to the category
-    createdProduct.addCategory(1)
-    createdProduct.addCategory(3)
-
-    res.send(createdProduct)
-  } catch (error) {
-    next(error)
-  }
-})
-
-// Get all products
-router.get('/product', async (req, res, next) => {
-  try {
-    const allProducts = await Product.findAll({
-      include: [Category, ProductImages, Review]
-    })
-
-    if (allProducts) {
-      res.json(allProducts)
-    } else {
-      res.send(404).end()
+module.exports = (sequelize, DataTypes) => {
+  const Product = sequelize.define('Product', {
+    name: DataTypes.STRING,
+    price: DataTypes.INTEGER,
+    description: DataTypes.TEXT,
+    inStock: DataTypes.BOOLEAN,
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
-  } catch (error) {
-    next(error)
-  }
-})
+  })
+  Product.associate = function(models) {
+    // associations can be defined here
+    models.Product.belongsToMany(
+      models.Category,
+      {
+        through: 'Product_categories'
+      },
+      { as: 'categories' }
+    )
 
-// Get a single product
-
-router.get('/product/:id', async (req, res, next) => {
-  try {
-    const singleProduct = await Product.findByPk(req.params.id, {
-      include: [Category, ProductImages, Review]
+    models.Category.belongsToMany(models.Product, {
+      through: 'Product_categories'
     })
 
-    if (singleProduct) {
-      res.json(singleProduct)
-    } else {
-      res.send(404).end()
-    }
-  } catch (error) {
-    next(error)
-  }
-})
+    models.Product.belongsToMany(
+      models.Cart,
+      {
+        through: models.CartProducts
+      },
+      { as: 'products' }
+    )
 
-module.exports = router
+    models.Product.hasMany(models.ProductImages)
+    models.Product.hasMany(models.Review)
+    models.Review.belongsTo(models.Product)
+    models.ProductImages.belongsTo(models.Product)
+  }
+  return Product
+}

@@ -1,19 +1,10 @@
-const { Router } = require('express')
-const router = new Router()
-const Category = require('../models').Category
-
-router.post('/category', async (req, res, next) => {
-  try {
-    const { name } = req.body
-
-    const createdCategory = await Category.create({
-      name
-    })
-
-    res.send(createdCategory)
-  } catch (error) {
-    next(error)
-  }
-})
-
-module.exports = router
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Category = sequelize.define('Category', {
+    name: DataTypes.STRING
+  }, {});
+  Category.associate = function(models) {
+    // associations can be defined here
+  };
+  return Category;
+};
