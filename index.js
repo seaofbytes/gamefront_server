@@ -14,6 +14,13 @@ app.use(corsMiddleware)
 app.use(parser)
 
 
+// Routers
+const userRoutes = require('./routes/user')
+
+
+// Routes
+app.use(userRoutes)
+
 app.get('/', (req, res) => {
   res.send('Hello world !')
 })
