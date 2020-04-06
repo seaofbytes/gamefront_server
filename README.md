@@ -1,5 +1,12 @@
 # Server for the gamefront webshop
 
+## Installation
+- clone the project : git clone https://github.com/seaofbytes/gamefront_server
+- install dependencies with npm / yarn install
+- change the config file to match your server
+- run sequelize db:migrate to create migrations
+- run sequelize db:seed:all to seed the database
+
 ## Summary
 This is the backend for my webshop project, built along with frontend in two weeks. The back end is built in Express, using Sequelize ORM, Sequelize-cli and Postgres.
 The backend also features a fully functional CMS style admin panel ( Admin bro ). 
