@@ -23,6 +23,7 @@ The backend also features a fully functional CMS style admin panel ( Admin bro )
 - [Docker](https://www.docker.com/)
 - [Jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)   
 - [AdminBro](https://github.com/SoftwareBrothers/admin-bro) 
+- [bcrypt](https://www.npmjs.com/package/bcrypt) 
 
 
 ## Routes
