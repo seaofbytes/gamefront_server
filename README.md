@@ -11,7 +11,7 @@
 This is the backend for my webshop project, built along with frontend in two weeks. The back end is built in Express, using Sequelize ORM, Sequelize-cli and Postgres.
 The backend also features a fully functional CMS style admin panel ( Admin bro ). 
 
-# Frontend for the server
+## Frontend for the server
  [Frontend](https://github.com/seaofbytes/gamefront_client)
 
 
